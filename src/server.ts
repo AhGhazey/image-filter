@@ -44,16 +44,15 @@ const querystring = require('querystring');
       res.status(422).send("Please provide valid parameters");
     }
     var filteredpath = await filterImageFromURL(imageUrl);
-    console.log(filteredpath);
+    //console.log(filteredpath);
     res.sendFile(filteredpath);
 
     res.sendFile(filteredpath, { root: process.env.UPLOADPATH }, function (err) {
       if (err) {
         console.log(err);
       } else {
-        // File has been sent
-        console.log('Sent:', filteredpath);
-  
+
+        //console.log('Sent:', filteredpath);
         deleteLocalFiles([filteredpath]);
       }
     });
