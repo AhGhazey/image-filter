@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
+const querystring = require('querystring');
 
 (async () => {
 
@@ -32,6 +33,33 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   //! END @TODO1
   
   // Root Endpoint
+
+  app.get( "/filteredimage", async ( req, res ) => {
+    var imageUrlString = req.url.split('?')[1];
+    var data = querystring.parse(imageUrlString)
+    console.log(data);
+    var imageUrl = data["image_url"];
+    if (imageUrlString == null || imageUrlString == undefined || imageUrl == '' ){
+      //return error message
+      res.status(422).send("Please provide valid parameters");
+    }
+    var filteredpath = await filterImageFromURL(imageUrl);
+    console.log(filteredpath);
+    res.sendFile(filteredpath);
+
+    res.sendFile(filteredpath, { root: process.env.UPLOADPATH }, function (err) {
+      if (err) {
+        console.log(err);
+      } else {
+        // File has been sent
+        console.log('Sent:', filteredpath);
+  
+        deleteLocalFiles([filteredpath]);
+      }
+    });
+
+    //
+  } );
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
     res.send("try GET /filteredimage?image_url={{}}")
