@@ -1,0 +1,1 @@
+http://imagefilter-dev.us-east-2.elasticbeanstalk.com/filteredimage?image_url=https://pbs.twimg.com/media/DwKwWAmWoAAaT6D.jpg
